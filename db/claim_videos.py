@@ -5,6 +5,7 @@ def claim_videos(cur, scrape_frequency=4, limit=50):
         FROM videos
         WHERE
             scrape_frequency = %s
+            AND has_error = FALSE
             AND (last_updated IS NULL OR last_updated < NOW() - INTERVAL '23 hours')
         ORDER BY
             last_updated ASC NULLS FIRST
