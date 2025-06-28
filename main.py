@@ -21,10 +21,10 @@ def calculate_new_scrape_frequency(view_gain, days_since_last_scrape):
     
     avpd = view_gain / days_since_last_scrape
     
-    if avpd < 10: return 0
-    if avpd < 500: return 1
-    if avpd < 5000: return 2
-    if avpd < 50000: return 3
+    if avpd < 1000: return 0
+    if avpd < 10000: return 1
+    if avpd < 100000: return 2
+    if avpd < 1000000: return 3
     return 4
 
 async def worker(semaphore, video_id: str):
@@ -95,7 +95,7 @@ async def main():
         except Exception as e:
             print(f"Error during processing: {e}")
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(10)
         
         
 if __name__ == "__main__":
