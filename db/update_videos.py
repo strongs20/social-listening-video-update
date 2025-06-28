@@ -15,14 +15,6 @@ def update_videos(cur, video_data_list):
         ) for video in video_data_list
     ]
 
-    stats_to_insert = [
-        (
-            video['video_id'],
-            video['product_id'],
-            video['avpd']
-        ) for video in video_data_list
-    ]
-
     update_sql = """
         UPDATE videos AS v SET
             views = data.views,
@@ -34,13 +26,5 @@ def update_videos(cur, video_data_list):
         WHERE v.video_id = data.video_id;
     """
     
-    stats_sql = """
-        INSERT INTO video_stats_timeseries (video_id, product_id, avpd, time_stamp)
-        VALUES (%s, %s, %s, CURRENT_DATE)
-        ON CONFLICT (video_id, time_stamp) DO NOTHING;
-    """
     if videos_to_update:
         execute_values(cur, update_sql, videos_to_update)
-
-    if stats_to_insert:
-        execute_batch(cur, stats_sql, stats_to_insert)
