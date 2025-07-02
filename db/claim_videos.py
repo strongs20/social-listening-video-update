@@ -1,8 +1,13 @@
+import os
+
 def claim_videos(cur, scrape_frequency=4, limit=50):
-    sql = """
+    region_table = "videos"
+    if os.getenv("REGION") == "uk":
+        region_table = "videos_uk"
+    sql = f"""
         SELECT
             video_id, product_id, views, last_updated
-        FROM videos
+        FROM {region_table}
         WHERE
             scrape_frequency = %s
             AND has_error = FALSE

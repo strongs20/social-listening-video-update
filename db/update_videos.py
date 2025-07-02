@@ -1,4 +1,5 @@
 from psycopg2.extras import execute_batch, execute_values
+import os
 
 def update_videos(cur, video_data_list):
     if not video_data_list:
@@ -15,8 +16,11 @@ def update_videos(cur, video_data_list):
         ) for video in video_data_list
     ]
 
-    update_sql = """
-        UPDATE videos AS v SET
+    region_table = "videos"
+    if os.getenv("REGION") == "uk":
+        region_table = "videos_uk"
+    update_sql = f"""
+        UPDATE {region_table} AS v SET
             views = data.views,
             likes = data.likes,
             comments = data.comments,

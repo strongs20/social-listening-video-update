@@ -1,8 +1,12 @@
 from db.connect import get_db_connection
 import logging
+import os
 
 def get_videos(scrape_frequency=4, limit=50):
-    sql = """
+    region_table = "videos"
+    if os.getenv("REGION") == "uk":
+        region_table = "videos_uk"
+    sql = f"""
         SELECT
             video_id,
             author_id,
@@ -17,7 +21,7 @@ def get_videos(scrape_frequency=4, limit=50):
             likes,
             handle
         FROM
-            videos
+            {region_table}
         WHERE
             scrape_frequency = %s
         ORDER BY
