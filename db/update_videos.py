@@ -17,8 +17,8 @@ def update_videos(cur, video_data_list):
     ]
 
     region_table = "videos"
-    if os.getenv("REGION") == "uk":
-        region_table = "videos_uk"
+    if os.getenv("REGION") != "us":
+        region_table = f"videos_{os.getenv('REGION')}"
     update_sql = f"""
         UPDATE {region_table} AS v SET
             views = data.views,

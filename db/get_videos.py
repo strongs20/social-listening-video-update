@@ -4,8 +4,8 @@ import os
 
 def get_videos(scrape_frequency=4, limit=50):
     region_table = "videos"
-    if os.getenv("REGION") == "uk":
-        region_table = "videos_uk"
+    if os.getenv("REGION") != "us":
+        region_table = f"videos_{os.getenv('REGION')}"
     sql = f"""
         SELECT
             video_id,

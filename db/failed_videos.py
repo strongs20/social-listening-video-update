@@ -5,8 +5,8 @@ def mark_error_videos(cur, video_ids):
     if not video_ids:
         return
     region_table = "videos"
-    if os.getenv("REGION") == "uk":
-        region_table = "videos_uk"
+    if os.getenv("REGION") != "us":
+        region_table = f"videos_{os.getenv('REGION')}"
     query = f"""
         UPDATE {region_table}
         SET has_error = TRUE
